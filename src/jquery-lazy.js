@@ -2,32 +2,6 @@
 //     (c) 2012-2013 Hunter Bridges, Jeff Rafter, Wantful Inc.
 //     jquery-lazy may be freely distributed under the MIT license.
 //
-// `jquery-lazy` is a cross-browser lazy loading image plugin. It's built
-// on top of jQuery. It supports retina devices.
-//
-// Browsers are varying about how they handle cached images. This plugin is
-// designed to accomodate for several failure cases. The project is built
-// to achieve these goals:
-//
-// * Be as flexible as possible
-// * Work well with browser caches
-// * Only load images when they are onscreen
-// * Don't load the same image twice
-//
-// To use lazy, put something like this at the end of your `body`:
-//
-//     <script type="text/javascript" src="jquery-lazy.js"></script>
-//     <script type="text/javascript">
-//        if (typeof jQuery !== 'undefined' && jQuery.fn.lazy) {
-//          (function($){
-//            $('img.lazy').lazy();
-//          })(jQuery);
-//        }
-//     </script>
-//
-// Also, don't hesitate to call `.lazy()` in your other front-end code.
-// If you dynamically add another image to the screen, hit it with
-// `$('img#my_new_img').lazy();`!
 
 // A functino
 (function($, window) {
