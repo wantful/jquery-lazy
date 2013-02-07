@@ -1,5 +1,5 @@
 //     jquery-lazy.js 1.0.0
-//     (c) 2012-2013 Hunter Bridges, Jeff Rafter, Wantful Inc.
+//     (c) 2012-2013 Hunter Bridges, Wantful Inc.
 //     jquery-lazy may be freely distributed under the MIT license.
 //
 // [About this plugin](../index.html)
