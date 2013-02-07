@@ -1,0 +1,190 @@
+<!DOCTYPE html>  <html> <head>   <title>jquery-lazy.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               jquery-lazy.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <pre><code>jquery-lazy.js 1.0.0
+(c) 2012-2013 Hunter Bridges, Jeff Rafter, Wantful Inc.
+jquery-lazy may be freely distributed under the MIT license.
+</code></pre>
+
+<p><code>jquery-lazy</code> is a cross-browser lazy loading image plugin. It's built
+on top of jQuery. It supports retina devices.</p>
+
+<p>Browsers are varying about how they handle cached images. This plugin is
+designed to accomodate for several failure cases. The project is built
+to achieve these goals:</p>
+
+<ul>
+<li>Be as flexible as possible</li>
+<li>Work well with browser caches</li>
+<li>Only load images when they are onscreen</li>
+<li>Don't load the same image twice</li>
+</ul>
+
+<p>To use lazy, put something like this at the end of your <code>body</code>:</p>
+
+<pre><code>&lt;script type="text/javascript" src="jquery-lazy.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+   if (typeof jQuery !== 'undefined' &amp;&amp; jQuery.fn.lazy) {
+     (function($){
+       $('img.lazy').lazy();
+     })(jQuery);
+   }
+&lt;/script&gt;
+</code></pre>
+
+<p>Also, don't hesitate to call <code>.lazy()</code> in your other front-end code.
+If you dynamically add another image to the screen, hit it with
+<code>$('img#my_new_img').lazy();</code>!</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>A functino</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">,</span> <span class="nb">window</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">ratio</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">devicePixelRatio</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="nx">ratio</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">devicePixelRatio</span><span class="p">;</span>
+
+  <span class="kd">var</span> <span class="nx">$window</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nb">window</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">$scroller</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Hate you</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">browser</span><span class="p">.</span><span class="nx">msie</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;data-original&#39;</span><span class="p">));</span>
+      <span class="p">});</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">opts</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">defaults</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">images</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">images</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">contains</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">item</span><span class="p">).</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;html *&#39;</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">contains</span><span class="p">)</span> <span class="k">return</span> <span class="nx">item</span><span class="p">;</span>
+      <span class="k">return</span> <span class="kc">undefined</span><span class="p">;</span>
+    <span class="p">});</span>
+    <span class="kd">var</span> <span class="nx">retval</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">$this</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">o</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">meta</span> <span class="o">?</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">opts</span><span class="p">,</span> <span class="nx">$this</span><span class="p">.</span><span class="nx">data</span><span class="p">())</span> <span class="o">:</span> <span class="nx">opts</span><span class="p">;</span>
+
+      <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">images</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">currentScrollHandler</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">$window</span><span class="p">.</span><span class="nx">unbind</span><span class="p">(</span><span class="s1">&#39;scroll.lazy resize.lazy&#39;</span><span class="p">,</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">currentScrollHandler</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">currentScrollHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">scrollAction</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">o</span><span class="p">);</span>
+      <span class="p">};</span>
+    <span class="p">}(</span><span class="nx">opts</span><span class="p">));</span>
+    <span class="nx">$window</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;scroll.lazy resize.lazy&#39;</span><span class="p">,</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">currentScrollHandler</span><span class="p">);</span>
+
+    <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">scrollAction</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">opts</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">images</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">unique</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">images</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">arrayClean</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">images</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">retval</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">images</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">loadedAlready</span> <span class="o">=</span> <span class="p">{};</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">arrayClean</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">deleteValue</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="nx">deleteValue</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="nx">i</span><span class="o">--</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">defaults</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">fade</span><span class="o">:</span> <span class="kc">true</span>
+  <span class="p">};</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">scrollAction</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$scroller</span> <span class="o">=</span> <span class="nx">$scroller</span> <span class="o">||</span> <span class="p">((</span><span class="nx">$</span><span class="p">.</span><span class="nx">browser</span><span class="p">.</span><span class="nx">mozilla</span> <span class="o">||</span> <span class="nx">$</span><span class="p">.</span><span class="nx">browser</span><span class="p">.</span><span class="nx">msie</span><span class="p">)</span> <span class="o">?</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;html&#39;</span><span class="p">)</span> <span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">));</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">images</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">image</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">images</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">$image</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">image</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">imageTop</span> <span class="o">=</span> <span class="nx">$image</span><span class="p">.</span><span class="nx">offset</span><span class="p">().</span><span class="nx">top</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">imageBottom</span> <span class="o">=</span> <span class="nx">imageTop</span> <span class="o">+</span> <span class="nx">$image</span><span class="p">.</span><span class="nx">height</span><span class="p">();</span>
+
+      <span class="kd">var</span> <span class="nx">viewportTop</span> <span class="o">=</span> <span class="nx">$scroller</span><span class="p">.</span><span class="nx">scrollTop</span><span class="p">();</span>
+      <span class="kd">var</span> <span class="nx">viewportBottom</span> <span class="o">=</span> <span class="nx">$scroller</span><span class="p">.</span><span class="nx">scrollTop</span><span class="p">()</span> <span class="o">+</span> <span class="nx">$window</span><span class="p">.</span><span class="nx">height</span><span class="p">();</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="nx">imageBottom</span> <span class="o">&lt;</span> <span class="nx">viewportTop</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">imageTop</span> <span class="o">&gt;</span> <span class="nx">viewportBottom</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Load!</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="kd">var</span> <span class="nx">visible</span> <span class="o">=</span> <span class="nx">$image</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;:visible&#39;</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">needsLoad</span> <span class="o">=</span> <span class="o">!</span><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">loadedAlready</span><span class="p">[</span><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">sourceToLoad</span><span class="p">(</span><span class="nx">image</span><span class="p">)]</span> <span class="o">&amp;&amp;</span>
+        <span class="nx">visible</span><span class="p">;</span>
+
+      <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;onerror&#39;</span><span class="p">,</span> <span class="s2">&quot;$.fn.lazy.xReload(this, &quot;</span><span class="o">+</span><span class="p">(</span><span class="nx">o</span><span class="p">.</span><span class="nx">fade</span><span class="o">?</span><span class="s1">&#39;true&#39;</span><span class="o">:</span><span class="s1">&#39;false&#39;</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;);&quot;</span><span class="p">);</span>
+      <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;onabort&#39;</span><span class="p">,</span> <span class="s2">&quot;$.fn.lazy.xReset(this);&quot;</span><span class="p">);</span>
+      <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;data-blank&#39;</span><span class="p">,</span> <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">));</span>
+      <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">sourceToLoad</span><span class="p">(</span><span class="nx">image</span><span class="p">));</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">needsLoad</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">complete</span> <span class="o">=</span> <span class="nx">image</span><span class="p">.</span><span class="nx">complete</span> <span class="o">||</span> <span class="nx">image</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="s2">&quot;complete&quot;</span><span class="p">;</span>
+          <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">complete</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">xHide</span><span class="p">(</span><span class="nx">image</span><span class="p">,</span> <span class="nx">o</span><span class="p">.</span><span class="nx">fade</span><span class="p">);</span>
+            <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;onload&#39;</span><span class="p">,</span> <span class="s2">&quot;$.fn.lazy.xShow(this, &quot;</span><span class="o">+</span><span class="p">(</span><span class="nx">o</span><span class="p">.</span><span class="nx">fade</span><span class="o">?</span><span class="s1">&#39;true&#39;</span><span class="o">:</span><span class="s1">&#39;false&#39;</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;);&quot;</span><span class="p">);</span>
+          <span class="p">}</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">complete</span><span class="p">)</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">xShow</span><span class="p">(</span><span class="nx">image</span><span class="p">,</span> <span class="nx">o</span><span class="p">.</span><span class="nx">fade</span><span class="p">);</span>
+        <span class="p">},</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="k">delete</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">images</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">arrayClean</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">images</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">);</span>
+  <span class="p">};</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">xHide</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">image</span><span class="p">,</span> <span class="nx">fade</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">$image</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">image</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">support</span><span class="p">.</span><span class="nx">opacity</span> <span class="o">&amp;&amp;</span> <span class="nx">fade</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">$image</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;opacity&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nx">$image</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;visibility&#39;</span><span class="p">,</span> <span class="s1">&#39;hidden&#39;</span><span class="p">);</span>
+  <span class="p">};</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">xShow</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">image</span><span class="p">,</span> <span class="nx">fade</span><span class="p">,</span> <span class="nx">force</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Expects <code>this</code> to be DOM image!</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">$image</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">image</span> <span class="o">||</span> <span class="k">this</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">src</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">sourceToLoad</span><span class="p">(</span><span class="nx">image</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="nx">src</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">force</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">loadedAlready</span><span class="p">[</span><span class="nx">src</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">support</span><span class="p">.</span><span class="nx">opacity</span> <span class="o">&amp;&amp;</span> <span class="nx">fade</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">$image</span><span class="p">.</span><span class="nx">stop</span><span class="p">().</span><span class="nx">animate</span><span class="p">({</span><span class="nx">opacity</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="mi">300</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nx">$image</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;visibility&#39;</span><span class="p">,</span> <span class="s1">&#39;visible&#39;</span><span class="p">);</span>
+  <span class="p">};</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">xReset</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">image</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">$image</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">image</span> <span class="o">||</span> <span class="k">this</span><span class="p">);</span>
+    <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;data-blank&#39;</span><span class="p">));</span>
+  <span class="p">};</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">xReload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">image</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Expects <code>this</code> to be DOM image!</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">$image</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">image</span> <span class="o">||</span> <span class="k">this</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">retries</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;data-retries&#39;</span><span class="p">),</span> <span class="mi">10</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">xHide</span><span class="p">(</span><span class="nx">image</span> <span class="o">||</span> <span class="k">this</span><span class="p">);</span>
+    <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;data-blank&#39;</span><span class="p">));</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">retries</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+        <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">sourceToLoad</span><span class="p">(</span><span class="nx">image</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;?&#39;</span> <span class="o">+</span> <span class="nx">d</span><span class="p">.</span><span class="nx">getTime</span><span class="p">());</span>
+        <span class="nx">retries</span><span class="o">++</span><span class="p">;</span>
+        <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;data-retries&#39;</span><span class="p">,</span> <span class="nx">retries</span><span class="p">);</span>
+      <span class="p">},</span> <span class="mi">100</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+        <span class="kd">var</span> <span class="nx">error_image</span> <span class="o">=</span> <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;data-error&#39;</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">error_image</span> <span class="o">&amp;&amp;</span> <span class="nx">error_image</span> <span class="o">!==</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="nx">error_image</span> <span class="o">+</span> <span class="s1">&#39;?&#39;</span> <span class="o">+</span> <span class="nx">d</span><span class="p">.</span><span class="nx">getTime</span><span class="p">());</span>
+          <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">xShow</span><span class="p">(</span><span class="nx">image</span> <span class="o">||</span> <span class="k">this</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="nx">error_image</span> <span class="o">=</span> <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;data-blank&#39;</span><span class="p">);</span>
+          <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="nx">error_image</span> <span class="o">+</span> <span class="s1">&#39;?&#39;</span> <span class="o">+</span> <span class="nx">d</span><span class="p">.</span><span class="nx">getTime</span><span class="p">());</span>
+        <span class="p">}</span>
+      <span class="p">},</span> <span class="mi">100</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">lazy</span><span class="p">.</span><span class="nx">sourceToLoad</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">image</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">$image</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">image</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">ratio</span> <span class="o">===</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;data-retina-src&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;data-retina-src&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">$image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;data-original&#39;</span><span class="p">);</span>
+  <span class="p">};</span>
+
+<span class="p">}(</span><span class="nx">jQuery</span><span class="p">,</span> <span class="nb">window</span><span class="p">));</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
